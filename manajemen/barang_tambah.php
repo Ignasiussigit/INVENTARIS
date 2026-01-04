@@ -23,6 +23,12 @@
             <a href="barang.php" class="btn btn-info btn-sm pull-right"><i class="fa fa-reply"></i> &nbsp Kembali</a> 
           </div>
           <div class="box-body">
+            <?php
+            $ruangan_id = $_SESSION['ruangan_id'];
+            $q = mysqli_query($koneksi,"SELECT ruangan_nama FROM ruangan WHERE ruangan_id='$ruangan_id'");
+            $r = mysqli_fetch_assoc($q);
+            $ruangan_nama = $r['ruangan_nama'];
+            ?>
             <form action="barang_act.php" method="post">
               <div class="form-group">
                 <label>Nama</label>
@@ -32,10 +38,13 @@
                 <label>Spesifikasi</label>
                 <input type="text" class="form-control" name="spesifikasi" required="required" placeholder="Masukkan spesifikasi ..">
               </div>
-              <div class="form-group">
+              <input type="hidden" name="lokasi" value="<?php echo $ruangan_nama; ?>">
+              <input type="hidden" name="ruangan_id" value="<?php echo $ruangan_id; ?>">
+
+              <!-- <div class="form-group">
                 <label>Lokasi</label>
                 <input type="text" class="form-control" name="lokasi" required="required" placeholder="Masukkan lokasi ..">
-              </div>
+              </div> -->
 
               <div class="form-group">
                 <label>Kondisi</label>

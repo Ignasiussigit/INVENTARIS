@@ -22,13 +22,13 @@ $ruangan_nama = $r_ruangan['ruangan_nama'];
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Laporan Mutasi Barang</title>
+  <title>Laporan Data Barang</title>
   <link rel="stylesheet" href="../assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
 </head>
 <body>
 
 <center>
-  <h4>LAPORAN MUTASI BARANG</h4>
+  <h4>LAPORAN DATA BARANG</h4>
   <h5>Ruangan: <?php echo $ruangan_nama; ?></h5>
   <h5>Sistem Informasi Inventaris Rumah Sakit</h5>
 </center>
@@ -39,12 +39,15 @@ $ruangan_nama = $r_ruangan['ruangan_nama'];
   <thead>
     <tr>
       <th width="1%">NO</th>
-      <th>BARANG</th>
-      <th>DARI RUANGAN</th>
-      <th>KE RUANGAN</th>
+      <th>NAMA BARANG</th>
+      <th>SPESIFIKASI</th>
+      <th>LOKASI</th>
+      <th>KONDISI</th>
       <th>JUMLAH</th>
-      <th>TGL MUTASI</th>
+      <th>SUMBER DANA</th>
+      <th>JENIS</th>
       <th>KETERANGAN</th>
+      <th>DIINPUT OLEH</th>
     </tr>
   </thead>
   <tbody>
@@ -53,31 +56,38 @@ $ruangan_nama = $r_ruangan['ruangan_nama'];
 
     $data = mysqli_query($koneksi,"
       SELECT 
-        p.*, 
-        b.barang_nama
-      FROM pinjam p
-      JOIN barang b ON p.pinjam_barang = b.barang_id
-      WHERE 
-        p.pinjam_peminjam = '$ruangan_nama'
-        OR p.pinjam_kondisi LIKE '%Dari $ruangan_nama ke%'
-      ORDER BY p.pinjam_id DESC
+        b.*,
+        r.ruangan_nama,
+        u.user_nama,
+        u.user_level
+      FROM barang b
+      LEFT JOIN ruangan r ON b.ruangan_id = r.ruangan_id
+      LEFT JOIN user u ON b.user_id = u.user_id
+      WHERE b.ruangan_id='$ruangan_id'
+      ORDER BY b.barang_nama ASC
     ");
 
     while($d = mysqli_fetch_array($data)){
-      // ambil ruangan asal dari keterangan
-      $asal = explode(
-        ' ke ',
-        str_replace('Dari ', '', explode('.', $d['pinjam_kondisi'])[0])
-      )[0];
     ?>
     <tr>
       <td><?php echo $no++; ?></td>
       <td><?php echo $d['barang_nama']; ?></td>
-      <td><?php echo $asal; ?></td>
-      <td><?php echo $d['pinjam_peminjam']; ?></td>
-      <td><?php echo $d['pinjam_jumlah']; ?></td>
-      <td><?php echo $d['pinjam_tgl_pinjam']; ?></td>
-      <td><?php echo $d['pinjam_kondisi']; ?></td>
+      <td><?php echo $d['barang_spesifikasi']; ?></td>
+      <td><?php echo $d['ruangan_nama']; ?></td>
+      <td><?php echo $d['barang_kondisi']; ?></td>
+      <td><?php echo $d['barang_jumlah']; ?></td>
+      <td><?php echo $d['barang_sumber_dana']; ?></td>
+      <td><?php echo $d['barang_jenis']; ?></td>
+      <td><?php echo $d['barang_keterangan']; ?></td>
+      <td>
+        <?php
+        if($d['user_nama']){
+          echo $d['user_nama']." <small>(".$d['user_level'].")</small>";
+        }else{
+          echo "<i>Data lama</i>";
+        }
+        ?>
+      </td>
     </tr>
     <?php } ?>
   </tbody>

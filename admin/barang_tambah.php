@@ -32,10 +32,27 @@
                 <label>Spesifikasi</label>
                 <input type="text" class="form-control" name="spesifikasi" required="required" placeholder="Masukkan spesifikasi ..">
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label>Lokasi</label>
                 <input type="text" class="form-control" name="lokasi" required="required" placeholder="Masukkan lokasi ..">
+              </div> -->
+
+              <div class="form-group">
+                <label>Ruangan</label>
+                <select class="form-control" name="ruangan_id" required>
+                  <option value=""> - Pilih Ruangan - </option>
+                  <?php
+                  include '../koneksi.php';
+                  $ruangan = mysqli_query($koneksi, "SELECT * FROM ruangan ORDER BY ruangan_nama ASC");
+                  while($r = mysqli_fetch_array($ruangan)){
+                  ?>
+                    <option value="<?php echo $r['ruangan_id']; ?>">
+                      <?php echo $r['ruangan_nama']; ?>
+                    </option>
+                  <?php } ?>
+                </select>
               </div>
+
 
               <div class="form-group">
                 <label>Kondisi</label>

@@ -60,6 +60,22 @@ include '../koneksi.php';
                 </div>
 
                 <div class="form-group">
+                  <label>Ruangan</label>
+                  <select class="form-control" name="ruangan_id">
+                    <option value=""> - pilih ruangan - </option>
+                    <?php
+                    $ruangan = mysqli_query($koneksi,"SELECT * FROM ruangan ORDER BY ruangan_nama ASC");
+                    while($r = mysqli_fetch_array($ruangan)){
+                    ?>
+                      <option value="<?php echo $r['ruangan_id']; ?>"
+                        <?php if($d['ruangan_id'] == $r['ruangan_id']) echo "selected"; ?>>
+                        <?php echo $r['ruangan_nama']; ?>
+                      </option>
+                    <?php } ?>
+                  </select>
+                </div>
+
+                <div class="form-group">
                   <label>Foto</label>
                   <input type="file" name="foto">
                   <p>Kosong Jika tidak ingin di ganti</p>

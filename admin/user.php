@@ -30,6 +30,7 @@
                     <th width="1%">NO</th>
                     <th>NAMA</th>
                     <th>USERNAME</th>
+                    <th>RUANGAN</th>
                     <th>LEVEL</th>
                     <th width="15%">FOTO</th>
                     <th width="10%">OPSI</th>
@@ -46,6 +47,7 @@
                       <td><?php echo $no++; ?></td>
                       <td><?php echo $d['user_nama']; ?></td>
                       <td><?php echo $d['user_username']; ?></td>
+                      <td><?php echo $d['ruangan_id']; ?></td>
                       <td><?php echo $d['user_level']; ?></td>
                       <td>
                         <center>

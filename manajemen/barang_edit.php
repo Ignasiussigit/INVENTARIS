@@ -40,7 +40,7 @@
                 </div>
                 <div class="form-group">
                   <label>Lokasi</label>
-                  <input type="text" class="form-control" name="lokasi" required="required" placeholder="Masukkan lokasi .." value="<?php echo $d['barang_lokasi'] ?>">
+                  <input type="text" class="form-control" name="lokasi" required="required" placeholder="Masukkan lokasi .." value="<?php echo $d['barang_lokasi'] ?>" readonly>
                 </div>
 
                 <div class="form-group">

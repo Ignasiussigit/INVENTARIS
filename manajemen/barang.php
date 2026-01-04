@@ -1,4 +1,18 @@
-<?php include 'header.php'; ?>
+<?php include 'header.php'; 
+include '../koneksi.php';
+
+// ambil data ruangan user
+$ruangan_id = $_SESSION['ruangan_id'];
+$q_ruangan = mysqli_query($koneksi,"
+  SELECT ruangan_nama 
+  FROM ruangan 
+  WHERE ruangan_id='$ruangan_id'
+");
+$r_ruangan = mysqli_fetch_assoc($q_ruangan);
+$ruangan_nama = $r_ruangan['ruangan_nama'];
+
+?>
+
 
 <div class="content-wrapper">
 
@@ -19,9 +33,10 @@
         <div class="box box-info">
 
           <div class="box-header">
-            <h3 class="box-title">Barang</h3>
+            <h3 class="box-title">Barang Ruang &nbsp; <span style="border-bottom: 3px solid salmon;"><?php echo $ruangan_nama; ?></span></h3>
             <div class="btn-group pull-right">
-              <a href="barang_tambah.php" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> &nbsp Tambah Barang</a>              
+              <a style="margin-right: 4px;" href="barang_tambah.php" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> &nbsp Tambah Barang</a>   
+              <a href="barang_print.php" target="_blank" class="btn btn-sm btn-primary"><i class="fa fa-print"></i> Print</a>           
             </div>
           </div>
           <div class="box-body">
@@ -40,6 +55,7 @@
                     <th>SUMBER DANA</th>
                     <th>JENIS</th>
                     <th>KETERANGAN</th>
+                    <th>DIINPUT OLEH</th>
                     <th width="10%">OPSI</th>
                   </tr>
                 </thead>
@@ -47,7 +63,16 @@
                   <?php 
                   include '../koneksi.php';
                   $no=1;
-                  $data = mysqli_query($koneksi,"SELECT * FROM barang");
+                  // $data = mysqli_query($koneksi,"SELECT * FROM barang");
+                  $ruangan_id = $_SESSION['ruangan_id'];
+                  $data = mysqli_query($koneksi,"
+                  SELECT 
+                    b.*,
+                    u.user_nama
+                  FROM barang b
+                  LEFT JOIN user u ON b.user_id = u.user_id
+                  WHERE b.ruangan_id='$ruangan_id'
+                ");
                   while($d = mysqli_fetch_array($data)){
                     ?>
                     <tr>
@@ -60,7 +85,15 @@
                       <td><?php echo $d['barang_sumber_dana']; ?></td>
                       <td><?php echo $d['barang_jenis']; ?></td>
                       <td><?php echo $d['barang_keterangan']; ?></td>
-
+                      <td>
+                      <?php 
+                      if($d['user_nama']){
+                        echo $d['user_nama'];
+                      }else{
+                        echo "<i>Admin</i>";
+                      }
+                      ?>
+                    </td>
                       <td>                        
                         <a class="btn btn-warning btn-sm" href="barang_edit.php?id=<?php echo $d['barang_id'] ?>"><i class="fa fa-cog"></i></a>
                         <a class="btn btn-danger btn-sm" href="barang_hapus_konfir.php?id=<?php echo $d['barang_id'] ?>"><i class="fa fa-trash"></i></a>

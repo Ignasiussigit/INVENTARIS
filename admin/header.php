@@ -107,6 +107,12 @@
           </li>
 
           <li>
+            <a href="ruangan.php">
+              <i class="fa fa-folder"></i> <span>DATA RUANGAN</span>
+            </a>
+          </li>
+
+          <li>
             <a href="suplier.php">
               <i class="fa fa-truck"></i> <span>DATA SUPLIER</span>
             </a>
@@ -114,7 +120,7 @@
 
           <li>
             <a href="peminjaman.php">
-              <i class="fa fa-hand-paper-o"></i> <span>PEMINJAMAN</span>
+              <i class="fa fa-hand-paper-o"></i> <span>MUTASI BARANG</span>
             </a>
           </li>
 

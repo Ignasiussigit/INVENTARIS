@@ -34,12 +34,12 @@
                 <thead>
                   <tr>
                     <th width="1%">NO</th>
-                    <th>NAMA</th>
                     <th>BARANG</th>
+                    <th>DARI RUANGAN</th>
+                    <th>KE RUANGAN</th>
                     <th>JUMLAH</th>
-                    <th>KONDISI</th>
-                    <th>TGL.PINJAM</th>
-                    <th>TGL.KEMBALI</th>
+                    <th>TGL MUTASI</th>
+                    <th>KETERANGAN</th>
                     <th>STATUS</th>
                     <th width="10%">OPSI</th>
                   </tr>
@@ -48,26 +48,35 @@
                   <?php 
                   include '../koneksi.php';
                   $no=1;
-                  $data = mysqli_query($koneksi,"SELECT * FROM pinjam,barang where pinjam_barang=barang_id");
+                  // $data = mysqli_query($koneksi,"SELECT * FROM pinjam,barang where pinjam_barang=barang_id");
+                  $data = mysqli_query($koneksi,"
+                  SELECT 
+                    p.*, 
+                    b.barang_nama
+                  FROM pinjam p
+                  JOIN barang b ON p.pinjam_barang = b.barang_id
+                  ORDER BY p.pinjam_id DESC
+                ");
                   while($d = mysqli_fetch_array($data)){
                     ?>
                     <tr>
                       <td><?php echo $no++; ?></td>
-                      <td><?php echo $d['pinjam_peminjam']; ?></td>
                       <td><?php echo $d['barang_nama']; ?></td>
-                      <td><?php echo $d['pinjam_jumlah']; ?></td>
-                      <td><?php echo $d['pinjam_kondisi']; ?></td>
-                      <td><?php echo $d['pinjam_tgl_pinjam']; ?></td>
-                      <td><?php echo $d['pinjam_tgl_kembali']; ?></td>
                       <td>
-                        <?php 
-                        if($d['pinjam_status'] == "Dikembalikan"){
-                          echo "<span class='label label-success'>Di Kembalikan</span>";
-                        }elseif($d['pinjam_status'] == "Dipinjam"){
-                          echo "<span class='label label-danger'>Di Pinjam</span>";
-                        }
+                        <?php
+                        // ambil dari keterangan
+                        echo explode(' ke ', str_replace('Dari ', '', explode('.', $d['pinjam_kondisi'])[0]))[0];
                         ?>
-
+                      </td>
+                      <td><?php echo $d['pinjam_peminjam']; ?></td>
+                      <td><?php echo $d['pinjam_jumlah']; ?></td>
+                      <td><?php echo $d['pinjam_tgl_pinjam']; ?></td>
+                      <td><?php echo $d['pinjam_kondisi']; ?></td>
+                      <!-- <td><?php echo $d['pinjam_tgl_kembali']; ?></td> -->
+                      <td>
+                        <span class="label label-info">
+                          <?php echo $d['pinjam_status']; ?>
+                        </span>
                       </td>
                       <td>                        
                         <a class="btn btn-warning btn-sm" href="peminjaman_edit.php?id=<?php echo $d['pinjam_id'] ?>"><i class="fa fa-cog"></i></a>

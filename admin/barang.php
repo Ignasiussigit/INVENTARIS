@@ -40,6 +40,7 @@
                     <th>SUMBER DANA</th>
                     <th>JENIS</th>
                     <th>KETERANGAN</th>
+                    <th>DIINPUT OLEH</th>
                     <th width="10%">OPSI</th>
                   </tr>
                 </thead>
@@ -47,20 +48,47 @@
                   <?php 
                   include '../koneksi.php';
                   $no=1;
-                  $data = mysqli_query($koneksi,"SELECT * FROM barang");
+                  // $data = mysqli_query($koneksi,"SELECT * FROM barang");
+
+                  // $data = mysqli_query($koneksi,"
+                  //   SELECT barang.*, ruangan.ruangan_nama
+                  //   FROM barang
+                  //   LEFT JOIN ruangan ON barang.ruangan_id = ruangan.ruangan_id
+                  // ");
+
+                 $data = mysqli_query($koneksi,"
+                  SELECT 
+                    b.*,
+                    r.ruangan_nama,
+                    u.user_nama,
+                    u.user_level
+                  FROM barang b
+                  LEFT JOIN ruangan r ON b.ruangan_id = r.ruangan_id
+                  LEFT JOIN user u ON b.user_id = u.user_id
+                ");
+
                   while($d = mysqli_fetch_array($data)){
                     ?>
                     <tr>
                       <td><?php echo $no++; ?></td>
                       <td><?php echo $d['barang_nama']; ?></td>
                       <td><?php echo $d['barang_spesifikasi']; ?></td>
-                      <td><?php echo $d['barang_lokasi']; ?></td>
+                      <!-- <td><?php echo $d['barang_lokasi']; ?></td> -->
+                       <td><?php echo $d['ruangan_nama']; ?></td>
                       <td><?php echo $d['barang_kondisi']; ?></td>
                       <td><?php echo $d['barang_jumlah']; ?></td>
                       <td><?php echo $d['barang_sumber_dana']; ?></td>
                       <td><?php echo $d['barang_jenis']; ?></td>
                       <td><?php echo $d['barang_keterangan']; ?></td>
-
+                     <td>
+                      <?php
+                      if($d['user_nama']){
+                        echo $d['user_nama']." <small>(".$d['user_level'].")</small>";
+                      }else{
+                        echo "<i>Admin</i>";
+                      }
+                      ?>
+                    </td>
                       <td>                        
                         <a class="btn btn-warning btn-sm" href="barang_edit.php?id=<?php echo $d['barang_id'] ?>"><i class="fa fa-cog"></i></a>
                         <a class="btn btn-danger btn-sm" href="barang_hapus_konfir.php?id=<?php echo $d['barang_id'] ?>"><i class="fa fa-trash"></i></a>

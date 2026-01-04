@@ -106,35 +106,35 @@
             </a>
           </li>
 
-          <li>
+          <!-- <li>
             <a href="suplier.php">
               <i class="fa fa-truck"></i> <span>DATA SUPLIER</span>
             </a>
-          </li>
+          </li> -->
 
           <li>
             <a href="peminjaman.php">
-              <i class="fa fa-hand-paper-o"></i> <span>PEMINJAMAN</span>
+              <i class="fa fa-hand-paper-o"></i> <span>MUTASI BARANG</span>
             </a>
           </li>
 
-          <li>
+          <!-- <li>
             <a href="barang_masuk.php">
               <i class="fa fa-mail-reply"></i> <span>BARANG MASUK</span>
             </a>
-          </li>
+          </li> -->
 
-          <li>
+          <!-- <li>
             <a href="barang_keluar.php">
               <i class="fa fa-mail-forward"></i> <span>BARANG KELUAR</span>
             </a>
-          </li>
+          </li> -->
 
-          <li>
+          <!-- <li>
             <a href="laporan.php">
               <i class="fa fa-file"></i> <span>LAPORAN</span>
             </a>
-          </li>
+          </li> -->
 
           <li>
             <a href="gantipassword.php">
